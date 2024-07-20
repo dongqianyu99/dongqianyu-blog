@@ -5,7 +5,7 @@ site_author: Lee # your name
 #[UI]
 theme:
   name: material
-  custom_dir: docs/overrides #覆写路径
+  # custom_dir: docs/overrides #覆写路径
   # font: #谷歌字体，自行搜索
   #   text: Bitter  #文本字体
   #   code: Roboto Mono  #代码字体

@@ -64,13 +64,13 @@ theme:
     logo: logo
 edit_uri: edit/main/docs # 编辑按钮跳转的链接
 repo_url: https://github.com/dongqianyu99/dongqianyu99.github.io # 右上角点击跳转的链接
-repo_name: Mkdocs-Wcowin # 右上角的名字
+repo_name: dongqianyu99 # 右上角的名字
 
 # [Navigtion]
 nav:   #目录
-  - README: docs\README.md 
+  - README: docs/README.md 
   - HPC-101: 
-    - HPC-Learning: docs\HPC Learning\notebook\HPC Learning.md
+    - HPC-Learning: docs/HPC Learning/notebook/HPC Learning.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明
 

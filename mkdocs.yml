@@ -73,8 +73,10 @@ nav:   #目录
     - HPC-Learning: HPC Learning/notebook/HPC Learning.md
   - Lab Notebook: Lab Notebook/notebook.md
   - Lab Reports: 
-    - Lab1 Report: Lab Reports/lab1 report/lab1 report.pdf
-    - Lab2 Report: Lab Reports/lab2 report/lab2 report.pdf
+    - Lab1 Report: Lab Reports/lab1 report/lab1 report.md
+    - Lab1 Report.pdf: Lab Reports/lab1 report/lab1 report.pdf
+    - Lab2 Report: Lab Reports/lab2 report/lab2 report.md
+    - Lab2 Report.pdf: Lab Reports/lab2 report/lab2 report.pdf
   - PAC Notebook: PAC Notebook.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明

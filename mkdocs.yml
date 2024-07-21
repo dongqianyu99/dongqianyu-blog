@@ -6,10 +6,10 @@ site_author: Lee # your name
 theme:
   name: material
   # custom_dir: docs/overrides #覆写路径
-  # font: #谷歌字体，自行搜索
-  #   text: Bitter  #文本字体
-  #   code: Roboto Mono  #代码字体
-  # logo: assets/favicon.png #左上角logo，可插入图片链接
+  font: #谷歌字体，自行搜索
+    text: Bitter  #文本字体
+    code: Roboto Mono  #代码字体
+  logo: assets/favicon.png #左上角logo，可插入图片链接
 
   favicon: https://s2.loli.net/2024/04/26/PmRdM9iGnvOJHgu.png # 网页icon
 
@@ -68,9 +68,9 @@ repo_name: dongqianyu99 # 右上角的名字
 
 # [Navigtion]
 nav:   #目录
-  - README: docs/README.md 
+  - README: README.md 
   - HPC-101: 
-    - HPC-Learning: docs/HPC Learning/notebook/HPC Learning.md
+    - HPC-Learning: HPC Learning/notebook/HPC Learning.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明
 
@@ -94,8 +94,8 @@ extra:
         - icon: material/thumb-up-outline #图标可自定义
           name: This page was helpful
           data: 1
-          note: >-
-            谢谢你的反馈！
+          # note: >-
+            # 谢谢你的反馈！
         - icon: material/thumb-down-outline
           name: This page could be improved
           data: 0

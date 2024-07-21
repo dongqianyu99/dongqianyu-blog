@@ -67,10 +67,10 @@ repo_url: https://github.com/dongqianyu99/dongqianyu99.github.io # 右上角点�
 repo_name: dongqianyu99 # 右上角的名字
 
 # [Navigtion]
-# nav:   #目录
-#   - README: README.md 
-#   - HPC-101: 
-#     - HPC-Learning: HPC Learning/notebook/HPC Learning.md
+nav:   #目录
+  - README: README.md 
+  - HPC-101: 
+    - HPC-Learning: HPC Learning/notebook/HPC Learning.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明
 
@@ -94,8 +94,8 @@ extra:
         - icon: material/thumb-up-outline #图标可自定义
           name: This page was helpful
           data: 1
-          # note: >-
-            # 谢谢你的反馈！
+          note: >-
+            谢谢你的反馈！
         - icon: material/thumb-down-outline
           name: This page could be improved
           data: 0

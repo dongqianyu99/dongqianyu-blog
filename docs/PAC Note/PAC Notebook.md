@@ -1,14 +1,14 @@
 # PAC  
 主要用于PAC比赛过程中学习的记录，会很不成体系，因为本来就是在疯狂补漏  
 
-VPN选择SSL VPN  
+<!-- VPN选择SSL VPN  
 网关：218.77.205.2:4433  
 账号：paratera  
 密码：VZXJqqtQTEFj2pxoWrsN  
 
 集群ip：10.82.24.30  
 集群账号：PAC20241612  
-集群密码：19883202356  
+集群密码：19883202356   -->
 
 [VScode通过ssh连接集群](https://blog.csdn.net/Oxford1151/article/details/137228119)  
 

@@ -16,7 +16,7 @@ https://dowww.spencerwoo.com/
 ZJUSCT OpenDocs  
 https://zjusct.pages.zjusct.io/ops/opendocs/
 
-## 登录集群  
+<!-- ## 登录集群  
 ### 配置密钥登录    
 step1：配置ZJU Git中的SSH密钥（在SSH一节中有讲）  
 step2：登录集群时，使用 ssh 账户名+节点名@clusters.zju.edu.cn 登录。如果你的 SSH 密钥配置正确，你将登录到集群登录节点。  
@@ -24,7 +24,7 @@ step2：登录集群时，使用 ssh 账户名+节点名@clusters.zju.edu.cn 登
 连接正常会看到  
 ![ ](image-66.png) 
 ### 集群资源&常见问题  
-参考https://zjusct.pages.zjusct.io/ops/opendocs/guide/  
+参考https://zjusct.pages.zjusct.io/ops/opendocs/guide/   -->
 
 ## Lab0：Linux Crash Course  
 参考的文档  

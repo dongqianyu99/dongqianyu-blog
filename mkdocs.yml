@@ -68,14 +68,14 @@ repo_name: dongqianyu99 # 右上角的名字
 
 # [Navigtion]
 nav:   #目录
-  - README: README.md 
-  - HPC-101: 
-    - HPC-Learning: HPC Learning/notebook/HPC Learning.md
-  - Lab Notebook: Lab Notebook/notebook.md
-  - Lab Reports: 
-    - Lab1 Report: Lab Reports/lab1 report/lab1 report.md
-    - Lab2 Report: Lab Reports/lab2 report/lab2 report.md
-  - PAC Notebook: PAC Note/PAC Notebook.md
+  - README: README.md  
+  - HPC 101:  
+    - HPC-Learning: HPC 101/HPC Learning/notebook/HPC Learning.md
+    - Lab Notebook: HPC 101/Lab Notebook/notebook.md
+    - Lab Reports: 
+      - Lab1 Report: HPC 101/Lab Reports/lab1 report/lab1 report.md
+      - Lab2 Report: HPC 101/Lab Reports/lab2 report/lab2 report.md
+    - PAC Notebook: HPC 101/PAC Note/PAC Notebook.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明
 

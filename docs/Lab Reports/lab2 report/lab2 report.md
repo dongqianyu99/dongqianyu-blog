@@ -13,11 +13,934 @@ wikipedia给出了形式化的定义：
  
 首先在 x 方向进行线性插值，得到
 
-![alt text](image-3.png)
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow data-mjx-texclass="ORD">
+    <mstyle displaystyle="true" scriptlevel="0">
+      <mrow data-mjx-texclass="ORD">
+        <mtable displaystyle="true" columnalign="right left" columnspacing="0em" rowspacing="3pt">
+          <mtr>
+            <mtd>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>,</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+            </mtd>
+            <mtd>
+              <mi></mi>
+              <mo>&#x2248;</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <mi>x</mi>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>11</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>x</mi>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>21</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>,</mo>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>,</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+            </mtd>
+            <mtd>
+              <mi></mi>
+              <mo>&#x2248;</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <mi>x</mi>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>12</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>x</mi>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>22</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>.</mo>
+            </mtd>
+          </mtr>
+        </mtable>
+      </mrow>
+    </mstyle>
+  </mrow>
+</math>
 
 然后在 y 方向进行线性插值，得到  
 
-![alt text](image-4.png)
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow data-mjx-texclass="ORD">
+    <mstyle displaystyle="true" scriptlevel="0">
+      <mrow data-mjx-texclass="ORD">
+        <mtable displaystyle="true" columnalign="right left right left" columnspacing="0em 2em 0em" rowspacing="3pt">
+          <mtr>
+            <mtd>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>,</mo>
+              <mi>y</mi>
+              <mo stretchy="false">)</mo>
+            </mtd>
+            <mtd>
+              <mi></mi>
+              <mo>&#x2248;</mo>
+            </mtd>
+            <mtd></mtd>
+            <mtd>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <mi>y</mi>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>,</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>y</mi>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>,</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+            <mtd>
+              <mi></mi>
+              <mo>=</mo>
+            </mtd>
+            <mtd></mtd>
+            <mtd>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <mi>y</mi>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mrow data-mjx-texclass="INNER">
+                <mo data-mjx-texclass="OPEN">(</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mfrac>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <mi>x</mi>
+                    </mrow>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                  </mfrac>
+                </mrow>
+                <mi>f</mi>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>Q</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mn>11</mn>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo>+</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mfrac>
+                    <mrow>
+                      <mi>x</mi>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                  </mfrac>
+                </mrow>
+                <mi>f</mi>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>Q</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mn>21</mn>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo data-mjx-texclass="CLOSE">)</mo>
+              </mrow>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+            <mtd></mtd>
+            <mtd></mtd>
+            <mtd>
+              <mi></mi>
+              <mo>+</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>y</mi>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                  <mrow>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mrow data-mjx-texclass="INNER">
+                <mo data-mjx-texclass="OPEN">(</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mfrac>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <mi>x</mi>
+                    </mrow>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                  </mfrac>
+                </mrow>
+                <mi>f</mi>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>Q</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mn>12</mn>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo>+</mo>
+                <mrow data-mjx-texclass="ORD">
+                  <mfrac>
+                    <mrow>
+                      <mi>x</mi>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                    <mrow>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>2</mn>
+                        </mrow>
+                      </msub>
+                      <mo>&#x2212;</mo>
+                      <msub>
+                        <mi>x</mi>
+                        <mrow data-mjx-texclass="ORD">
+                          <mn>1</mn>
+                        </mrow>
+                      </msub>
+                    </mrow>
+                  </mfrac>
+                </mrow>
+                <mi>f</mi>
+                <mo stretchy="false">(</mo>
+                <msub>
+                  <mi>Q</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mn>22</mn>
+                  </mrow>
+                </msub>
+                <mo stretchy="false">)</mo>
+                <mo data-mjx-texclass="CLOSE">)</mo>
+              </mrow>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+            <mtd>
+              <mi></mi>
+              <mo>=</mo>
+            </mtd>
+            <mtd></mtd>
+            <mtd>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mn>1</mn>
+                  <mrow>
+                    <mo stretchy="false">(</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo stretchy="false">)</mo>
+                    <mo stretchy="false">(</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo stretchy="false">)</mo>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="ORD">
+                  <mo minsize="1.2em" maxsize="1.2em">(</mo>
+                </mrow>
+              </mrow>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>11</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>x</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo>&#x2212;</mo>
+              <mi>x</mi>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo>&#x2212;</mo>
+              <mi>y</mi>
+              <mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>21</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>&#x2212;</mo>
+              <msub>
+                <mi>x</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo>&#x2212;</mo>
+              <mi>y</mi>
+              <mo stretchy="false">)</mo>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+            <mtd></mtd>
+            <mtd></mtd>
+            <mtd>
+              <mi></mi>
+              <mo>+</mo>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>12</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>x</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>2</mn>
+                </mrow>
+              </msub>
+              <mo>&#x2212;</mo>
+              <mi>x</mi>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <mi>y</mi>
+              <mo>&#x2212;</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mi>f</mi>
+              <mo stretchy="false">(</mo>
+              <msub>
+                <mi>Q</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>22</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <mi>x</mi>
+              <mo>&#x2212;</mo>
+              <msub>
+                <mi>x</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mo stretchy="false">(</mo>
+              <mi>y</mi>
+              <mo>&#x2212;</mo>
+              <msub>
+                <mi>y</mi>
+                <mrow data-mjx-texclass="ORD">
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo stretchy="false">)</mo>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="ORD">
+                  <mo minsize="1.2em" maxsize="1.2em">)</mo>
+                </mrow>
+              </mrow>
+            </mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+          </mtr>
+          <mtr>
+            <mtd></mtd>
+            <mtd>
+              <mi></mi>
+              <mo>=</mo>
+            </mtd>
+            <mtd></mtd>
+            <mtd>
+              <mrow data-mjx-texclass="ORD">
+                <mfrac>
+                  <mn>1</mn>
+                  <mrow>
+                    <mo stretchy="false">(</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo stretchy="false">)</mo>
+                    <mo stretchy="false">(</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>2</mn>
+                      </mrow>
+                    </msub>
+                    <mo>&#x2212;</mo>
+                    <msub>
+                      <mi>y</mi>
+                      <mrow data-mjx-texclass="ORD">
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo stretchy="false">)</mo>
+                  </mrow>
+                </mfrac>
+              </mrow>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">[</mo>
+                  <mtable columnalign="center" columnspacing="1em" rowspacing="4pt">
+                    <mtr>
+                      <mtd>
+                        <msub>
+                          <mi>x</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>2</mn>
+                          </mrow>
+                        </msub>
+                        <mo>&#x2212;</mo>
+                        <mi>x</mi>
+                      </mtd>
+                      <mtd>
+                        <mi>x</mi>
+                        <mo>&#x2212;</mo>
+                        <msub>
+                          <mi>x</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>1</mn>
+                          </mrow>
+                        </msub>
+                      </mtd>
+                    </mtr>
+                  </mtable>
+                  <mo data-mjx-texclass="CLOSE">]</mo>
+                </mrow>
+              </mrow>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">[</mo>
+                  <mtable columnalign="center" columnspacing="1em" rowspacing="4pt">
+                    <mtr>
+                      <mtd>
+                        <mi>f</mi>
+                        <mo stretchy="false">(</mo>
+                        <msub>
+                          <mi>Q</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>11</mn>
+                          </mrow>
+                        </msub>
+                        <mo stretchy="false">)</mo>
+                      </mtd>
+                      <mtd>
+                        <mi>f</mi>
+                        <mo stretchy="false">(</mo>
+                        <msub>
+                          <mi>Q</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>12</mn>
+                          </mrow>
+                        </msub>
+                        <mo stretchy="false">)</mo>
+                      </mtd>
+                    </mtr>
+                    <mtr>
+                      <mtd></mtd>
+                    </mtr>
+                    <mtr>
+                      <mtd>
+                        <mi>f</mi>
+                        <mo stretchy="false">(</mo>
+                        <msub>
+                          <mi>Q</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>21</mn>
+                          </mrow>
+                        </msub>
+                        <mo stretchy="false">)</mo>
+                      </mtd>
+                      <mtd>
+                        <mi>f</mi>
+                        <mo stretchy="false">(</mo>
+                        <msub>
+                          <mi>Q</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>22</mn>
+                          </mrow>
+                        </msub>
+                        <mo stretchy="false">)</mo>
+                      </mtd>
+                    </mtr>
+                  </mtable>
+                  <mo data-mjx-texclass="CLOSE">]</mo>
+                </mrow>
+              </mrow>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="INNER">
+                  <mo data-mjx-texclass="OPEN">[</mo>
+                  <mtable columnalign="center" columnspacing="1em" rowspacing="4pt">
+                    <mtr>
+                      <mtd>
+                        <msub>
+                          <mi>y</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>2</mn>
+                          </mrow>
+                        </msub>
+                        <mo>&#x2212;</mo>
+                        <mi>y</mi>
+                      </mtd>
+                    </mtr>
+                    <mtr>
+                      <mtd></mtd>
+                    </mtr>
+                    <mtr>
+                      <mtd>
+                        <mi>y</mi>
+                        <mo>&#x2212;</mo>
+                        <msub>
+                          <mi>y</mi>
+                          <mrow data-mjx-texclass="ORD">
+                            <mn>1</mn>
+                          </mrow>
+                        </msub>
+                      </mtd>
+                    </mtr>
+                  </mtable>
+                  <mo data-mjx-texclass="CLOSE">]</mo>
+                </mrow>
+              </mrow>
+              <mo>.</mo>
+            </mtd>
+          </mtr>
+        </mtable>
+      </mrow>
+    </mstyle>
+  </mrow>
+</math>  
 
 注意此处如果先在 y 方向插值、再在 x 方向插值，其结果与按照上述顺序双线性插值的结果是一样的。  
 

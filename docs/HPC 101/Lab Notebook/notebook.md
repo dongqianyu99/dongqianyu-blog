@@ -2389,4 +2389,305 @@ docker run -it --name node01 2325aae77464
 
 ---  
 
+## Lab2.5-Bonus 手写 SIMD 向量化  
+
+### 4.1 实验基础知识  
+现代处理器一般都支持向量化指令，x86 架构下 Intel 和 AMD 两家的处理器都提供了诸如 <u>SSE，AVX 等 SIMD 指令集</u>，一条指令可以同时操作多个数据进行运算，大大提高了现代处理器的数据吞吐量。  
+
+现代编译器的高等级优化下会自动向量化，对于结构清晰，循环边界清晰的程序，编译器的自动向量化已经可以达到很优秀的程度了。然而，编译器的优化始终是保守的，很多情况下编译器无法完成使用 SIMD 指令进行向量化的工作  
+
+显然直接手写汇编指令过于困难，在 C 语言环境下，Intel 提供了一整套关于 SIMD 指令的函数封装接口和指令相关行为的[参照手册](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)  
+
+调用这些函数API(Application Programming Interface，应用程序编程接口)需要include相应头文件，如  
+
+```c  
+#include <smmintrin.h>
+#include <emmintrin.h>
+#include <immintrin.h>
+```  
+
+这个级别的优化开始需要考虑具体<u>处理器的体系结构基础细节</u>，如某个*架构下某条指令的实现延时和吞吐量*是多少，*处理器提供了多少向量寄存器*，*访存的对齐*等等。  
+
+这种时候编译器具体产生的汇编代码能比 C 语言代码提供更多的信息，你能了解到自己使用了多少寄存器，编译器是否生成了预期外的代码等等。  
+
+### 4.2 实验步骤  
+
+题目的格式好像有点问题，看不完整  
+
+baseline如下, 简单来说就是进行MAXN次D~4*4~=A~4*12~$\times$B~12∗4~的矩阵乘法. 其中MAXN个矩阵的内容不同, 计算的时候要注意位移  
+
+在编译时添加以下选项可以允许编译器生成使用 AVX2 和 FMA 指令集的代码，如果你使用了其它不在编译器默认范围内的指令集，类似的编译选项是必要的。  
+
+```bash  
+-mavx2 -mfma
+```  
+
+#### 4.2.1 实验初始代码 `multi.cpp`   
+
+```c++  
+#include <stdio.h>
+#include <chrono>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <smmintrin.h>
+#include <emmintrin.h>
+#include <immintrin.h>
+
+#define MAXN 10000000
+
+double *a;
+double *b;
+double *c;
+double *d;
+
+int main()
+{
+    printf("Initializing\n");
+    a = (double *)malloc(sizeof(double) * MAXN * 48); // 4*12
+    b = (double *)malloc(sizeof(double) * MAXN * 48); // 12*4
+    c = (double *)malloc(sizeof(double) * MAXN * 16); // 4*4
+    d = (double *)malloc(sizeof(double) * MAXN * 16); // 4*4
+    memset(c, 0, sizeof(double) * MAXN * 16);
+    memset(d, 0, sizeof(double) * MAXN * 16);
+    for (int i = 0; i < MAXN * 48; i++)  //initialize
+    {
+        *(a + i) = 1.0 / (rand() + 1);
+        *(b + i) = 1.0 / (rand() + 1);
+    }
+
+    printf("Raw computing\n");
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int n = 0; n < MAXN; n++)
+    {
+        for (int k = 0; k < 4; k++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    *(c + n * 16 + i * 4 + k) += *(a + n * 48 + i * 12 + j) * *(b + n * 48 + j * 4 + k);
+                }
+            }
+        }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    double time1 = std::chrono::duration<double>(end - start).count();
+
+    printf("New computing\n");
+    start = std::chrono::high_resolution_clock::now();
+    for (int n = 0; n < MAXN; n++)
+    {
+        /* 可以修改的代码区域 */
+        // -----------------------------------
+        for (int k = 0; k < 4; k++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    *(d + n * 16 + i * 4 + k) += *(a + n * 48 + i * 12 + j) * *(b + n * 48 + j * 4 + k);
+                }
+            }
+        }
+        // -----------------------------------
+    }
+
+    end = std::chrono::high_resolution_clock::now();
+
+    double time2 = std::chrono::duration<double>(end - start).count();
+    printf("raw time=%lfs\nnew time=%lfs\nspeed up:%lfx\nChecking\n", time1, time2, time1 / time2);
+
+    for (int i = 0; i < MAXN * 16; i++)
+    {
+        if (fabs(c[i] - d[i]) / d[i] > 0.0001)
+        {
+            printf("Check Failed at %d\n", i);
+            return 0;
+        }
+    }
+    printf("Check Passed\n");
+}
+```  
+
+看完baseline发现是老熟人了，这其实就是SEGMM，只不过在PAC比赛里支持的是ARM指令集，而在这里要用AVX指令集，而且这里的矩阵规模是确定的，行数和列数都是4的倍数，结果矩阵就是一个4$\times$4的矩阵，不需要处理boundary case。只需要学习一下AVX指令集，做一个替换就好。  
+
+#### 4.2.2 AVX指令集  
+
+最权威的当然是[官方文档](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)，简单查找也可以看[CSDN](https://blog.csdn.net/nbu_dahe/article/details/122157205?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172163326016800186536619%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=172163326016800186536619&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-122157205-null-null.142^v100^pc_search_result_base8&utm_term=avx%E6%8C%87%E4%BB%A4%E9%9B%86&spm=1018.2226.3001.4187)  
+
+这里只列举代码中使用到的:  
+
+`_mm256_setzero_pd`  
+![alt text](image-98.png)  
+
+`_mm256_loadu_pd`  
+![alt text](image-99.png)  
+
+`_mm256_set1_pd`  
+![alt text](image-100.png)  
+
+`_mm256_fmadd_pd`  
+![alt text](image-101.png)  
+
+`_mm256_storeu_pd`  
+![alt text](image-102.png)  
+
+#### 4.2.3 优化思路  
+
+效率角度来说用AVX-512同时进行8个double数的运算效率应该会更高，但考虑到a，b矩阵分别固定为4$\times$12和12$\times$4的规模，行数和列数都是4的倍数，我选择了_m256d的数据类型，同时进行4个double数的向量运算。  
+
+由于结果矩阵本身就是4$\times$4的规模，也就意味着a矩阵的block就是4$\times$12，b矩阵的block就是12$\times$4，都只需要扫描读取一次，因此没有packing的必要。  
+
+**优化后的代码multi_pro.cpp**  
+```c  
+#include <stdio.h>
+#include <chrono>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <smmintrin.h>
+#include <emmintrin.h>
+#include <immintrin.h>
+
+#define MAXN 10000000
+
+double *a;
+double *b;
+double *c;
+double *d;
+
+int main()
+{
+    printf("Initializing\n");
+    a = (double *)malloc(sizeof(double) * MAXN * 48); // 4*12
+    b = (double *)malloc(sizeof(double) * MAXN * 48); // 12*4
+    c = (double *)malloc(sizeof(double) * MAXN * 16); // 4*4
+    d = (double *)malloc(sizeof(double) * MAXN * 16); // 4*4
+    memset(c, 0, sizeof(double) * MAXN * 16);
+    memset(d, 0, sizeof(double) * MAXN * 16);
+    for (int i = 0; i < MAXN * 48; i++)  //initialize
+    {
+        *(a + i) = 1.0 / (rand() + 1);
+        *(b + i) = 1.0 / (rand() + 1);
+    }
+
+    printf("Raw computing\n");
+    auto start = std::chrono::high_resolution_clock::now();  //timing
+    for (int n = 0; n < MAXN; n++)  //MAXN times
+    {
+        for (int k = 0; k < 4; k++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    *(c + n * 16 + i * 4 + k) += *(a + n * 48 + i * 12 + j) * *(b + n * 48 + j * 4 + k);
+                }
+            }
+        }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    double time1 = std::chrono::duration<double>(end - start).count();
+
+    printf("New computing\n");
+    start = std::chrono::high_resolution_clock::now();
+    for (int n = 0; n < MAXN; n++)
+    {
+        //printf("1\n");
+        /* 可以修改的代码区域 */
+        // -----------------------------------
+        // for (int k = 0; k < 4; k++)
+        // {
+        //     for (int i = 0; i < 4; i++)
+        //     {
+        //         for (int j = 0; j < 12; j++)
+        //         {
+        //             *(d + n * 16 + i * 4 + k) += *(a + n * 48 + i * 12 + j) * *(b + n * 48 + j * 4 + k);
+        //         }
+        //     }
+        // }
+        double *a_ptr = a + n * 48, *b_ptr = b + n * 48;
+        double *d_ptr = d + n * 16;
+        int k;
+        double *a_ptr_0,*a_ptr_1,*a_ptr_2,*a_ptr_3;
+        a_ptr_0=&a_ptr[0*12+0];
+        a_ptr_1=&a_ptr[1*12+0];
+        a_ptr_2=&a_ptr[2*12+0];
+        a_ptr_3=&a_ptr[3*12+0];
+
+        __m256d c_sum_0 = _mm256_setzero_pd();  
+        __m256d c_sum_1 = _mm256_setzero_pd();  
+        __m256d c_sum_2 = _mm256_setzero_pd();  
+        __m256d c_sum_3 = _mm256_setzero_pd(); 
+
+        double a_reg_0,a_reg_1,a_reg_2,a_reg_3;
+
+        for (k = 0; k < 12;k++){
+            a_reg_0 = *(a_ptr_0++);
+            a_reg_1 = *(a_ptr_1++);
+            a_reg_2 = *(a_ptr_2++);
+            a_reg_3 = *(a_ptr_3++);
+
+            __m256d b_reg = _mm256_loadu_pd(&b_ptr[k * 4 + 0]);
+
+            __m256d a_vec_0 = _mm256_set1_pd(a_reg_0);
+            c_sum_0 = _mm256_fmadd_pd(a_vec_0, b_reg,c_sum_0);
+            __m256d a_vec_1 = _mm256_set1_pd(a_reg_1);
+            c_sum_1 = _mm256_fmadd_pd(a_vec_1, b_reg,c_sum_1);
+            __m256d a_vec_2 = _mm256_set1_pd(a_reg_2);
+            c_sum_2 = _mm256_fmadd_pd(a_vec_2, b_reg,c_sum_2);
+            __m256d a_vec_3 = _mm256_set1_pd(a_reg_3);
+            c_sum_3 = _mm256_fmadd_pd(a_vec_3, b_reg,c_sum_3);
+
+        }
+
+        _mm256_storeu_pd(d_ptr, c_sum_0);
+        _mm256_storeu_pd(d_ptr+4, c_sum_1);
+        _mm256_storeu_pd(d_ptr+8, c_sum_2);
+        _mm256_storeu_pd(d_ptr+12, c_sum_3);
+
+        // -----------------------------------
+
+    }
+    end = std::chrono::high_resolution_clock::now();
+
+    double time2 = std::chrono::duration<double>(end - start).count();
+    printf("raw time=%lfs\nnew time=%lfs\nspeed up:%lfx\nChecking\n", time1, time2, time1 / time2);
+
+    for (int i = 0; i < MAXN * 16; i++)
+    {
+        if (fabs(c[i] - d[i]) / d[i] > 0.0001)
+        {
+            printf("Check Failed at %d\n", i);
+            return 0;
+        }
+    }
+    printf("Check Passed\n");
+}
+```  
+
+这是一个非常常规的SIMD，在不使用编译器优化选项的情况下，首次编译运行的结果如下  
+
+```bash  
+g++ multi_pro.cpp -mavx2 -mfma -o multi_pro  
+./multi_pro.exe  
+
+```
+
+![alt text](image-103.png)  
+
+多次运行后加速比基本稳定在2x上下  
+
+![alt text](image-104.png)  
+![alt text](image-105.png)  
+![alt text](image-106.png)  
+
+### 4.3 godbolt  
+
+godbolt 是一款基于 web 的研究不同编译器编译产生汇编代码的工具，借助它我们可以从汇编代码中获得更多信息。 
+
+这个在线工具其实就是把代码转换成汇编语言（然鹅我对汇编是完全不会的）。快速学习汇编，找了一篇[CSND](https://blog.csdn.net/hanmo22357/article/details/127883179?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172165810716800211583778%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=172165810716800211583778&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-127883179-null-null.142^v100^pc_search_result_base8&utm_term=%E6%B1%87%E7%BC%96&spm=1018.2226.3001.4187)  
 

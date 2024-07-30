@@ -190,4 +190,104 @@ CUDA 为许多常用编程语言提供扩展。这些语言扩展可让开发人
 
 要复现文档中的 CUDA 程序，需要安装[CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive)。  
 
-显然 CUDA 是可以配置在 VS Code 上的，但鬼知道我找了多少教程配置了多久，总之最后成功在 Visual Studio 2022 上配置成功。具体参考[Youtube Vidio](https://www.youtube.com/watch?v=3usDbpnn7E8)。
+显然 CUDA 是可以配置在 VS Code 上的，但鬼知道我找了多少教程配置了多久，总之最后成功在 Visual Studio 2022 上配置成功。具体参考 [Youtube Vidio](https://www.youtube.com/watch?v=3usDbpnn7E8)。这样配置可以成功编译运行，但对于 CUDA 中的特有语法会有红色波浪下划线报错，可以参考[知乎文章](https://zhuanlan.zhihu.com/p/652307402)简单去除一下（只要把里面的“禁用波浪曲线”置为 True 就可以了）。  
+
+先来看一个 `.cu` 文件  
+```c
+void CPUFunction()
+{
+  printf("This function is defined to run on the CPU.\n");
+}
+
+__global__ void GPUFunction()
+{
+  printf("This function is defined to run on the GPU.\n");
+}
+
+int main()
+{
+  CPUFunction();
+
+  GPUFunction<<<1, 1>>>();
+  cudaDeviceSynchronize();
+}
+```  
+
+对比普通的 C 程序，CUDA 代码有些不同之处  
+
+`__global__ void GPUFunction()`  
+- `__global__` 关键字表明以下函数将在 GPU 上运行并可**全局**调用，而在此种情况下，则指**由 CPU 或 GPU 调用**。
+- 通常，我们将在 CPU 上执行的代码称为**主机代码**，而将在 GPU 上运行的代码称为**设备代码**。
+
+`GPUFunction<<<1, 1>>>();`  
+- 通常，当调用要在 GPU 上运行的函数时，我们将此种函数称为已启动的**核函数**。
+- 启动核函数时，我们必须提供**执行配置**，即在向核函数传递任何预期参数之前使用 <<< ... >>> 语法完成的配置。
+- 在宏观层面，程序员可通过执行配置为核函数启动指定**线程层次结构**，从而定义线程组（称为**线程块**）的数量，以及要在每个线程块中执行的**线程**数量。稍后将在本实验深入探讨执行配置，但现在请注意正在使用包含 1 线程（第二个配置参数）的 1 线程块（第一个执行配置参数）启动核函数。  
+
+`cudaDeviceSynchronize();`  
+- 与许多 C/C++ 代码不同，核函数启动方式为**异步**：CPU 代码将继续执行而无需等待核函数完成启动。
+- 调用 CUDA 运行时提供的函数 `cudaDeviceSynchronize` 将导致主机 (CPU) 代码暂作等待，直至设备 (GPU) 代码执行完成，才能在 CPU 上恢复执行。  
+
+##### 练习：编写一个Hello GPU核函数  
+`01-hello-gpu.cu`  
+
+##### 编译并运行加速后的CUDA代码  
+CUDA 平台附带 [NVIDIA CUDA 编译器](https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html) `nvcc`，可以编译 CUDA 加速应用程序，其中包含主机和设备代码。  
+
+使用 `nvcc` 编译和用 `gcc` 非常类似。但尝试在 VS 的 Terminal （默认 PowerShell）上使用命令行  
+```bash
+nvcc -o 01-hello-gpu 01-hello-gpu.cu -run
+```  
+会出现报错  
+
+![alt text](image-17.png)  
+
+该错误难以解决，网上也没有找到什么好的解决办法。所以我直接使用了git bash ，效果不错。对于报错 `nvcc fatal : Cannot find compiler 'cl.exe' in PATH` ，可以参考 [CSDN](https://blog.csdn.net/weixin_43997331/article/details/104764873)。  
+
+![alt text](image-18.png)  
+
+当然其实不一定要用命令行编译运行，在 VS 中可以直接 build 和 run without debugging 。
+
+#### CUDA的线程层次结构  
+GPU 在线程中执行工作，多个线程并行运行。线程的集合称为**块**。与给定核函数启动相关的块的集合称为**网格**。GPU 函数称为**核函数**，核函数通过执行配置启动，执行配置定义了网格中的块数以及每个块中的线程数。网格中的每个块均包含相同数量的线程。  
+
+![alt text](image-19.png)  
+
+#### 启动并行运行的核函数  
+执行配置可以指定线程组（称为**线程块**或简称为**块**）数量以及其希望每个线程块所包含的线程数量。执行配置的语法如下：
+```c
+<<< NUMBER_OF_BLOCKS, NUMBER_OF_THREADS_PER_BLOCK>>>
+```
+**启动核函数时，核函数代码由每个已配置的线程块中的每个线程执行**。  
+
+#### CUDA 提供的线程层次结构变量  
+在核函数定义中，CUDA 提供的变量描述了它所执行的线程、块和网络。  
+
+`gridDim.x` 是网格中的块数。  
+`blockIdx.x` 是网格中当前块的索引。  
+`threadIdx.x` 描述了块中所包含线程的索引
+
+![alt text](image-20.png)  
+
+#### 线程和块的索引  
+每个线程在其线程块内部均会被分配一个索引，从 `0` 开始。此外，每个线程块也会被分配一个索引，并从 `0` 开始。正如线程组成线程块，线程块又会组成网格，而**网格是 CUDA 线程层次结构中级别最高的实体**。简言之，CUDA 核函数在由一个或多个线程块组成的网格中执行，且每个线程块中均包含相同数量的一个或多个线程。  
+
+##### 练习：使用特定的线程和块索引  
+`01-thread-and-block-inx.cu`  
+
+#### 加速 for 循环  
+对于一个最普通的 `for` 循环  
+```c  
+int N = 2<<20;
+for (int i = 0; i < N; ++i)
+{
+  printf("%d\n", i);
+}
+```
+如要并行此循环，必须执行以下 2 个步骤：
+- 必须编写完成**循环的单次迭代工作**的核函数。
+- 由于核函数与其他正在运行的核函数无关，因此执行配置必须使核函数执行正确的次数，例如循环迭代的次数。  
+
+##### 练习：使用单个线程加速 for 循环  
+`01-single-block-loop.cu`  
+

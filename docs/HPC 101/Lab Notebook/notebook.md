@@ -2596,7 +2596,6 @@ int main()
     start = std::chrono::high_resolution_clock::now();
     for (int n = 0; n < MAXN; n++)
     {
-        //printf("1\n");
         /* 可以修改的代码区域 */
         // -----------------------------------
         // for (int k = 0; k < 4; k++)
@@ -2691,3 +2690,385 @@ godbolt 是一款基于 web 的研究不同编译器编译产生汇编代码的�
 
 这个在线工具其实就是把代码转换成汇编语言（然鹅我对汇编是完全不会的）。快速学习汇编，找了一篇[CSND](https://blog.csdn.net/hanmo22357/article/details/127883179?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172165810716800211583778%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=172165810716800211583778&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-127883179-null-null.142^v100^pc_search_result_base8&utm_term=%E6%B1%87%E7%BC%96&spm=1018.2226.3001.4187)  
 
+使用编译：`x86-64 gcc 14.1`   编译选项：`-mavx2 -mfma`  
+
+`for` 循环实现的汇编代码
+
+```assembly  
+        mov     DWORD PTR [rbp-24], 0  //将立即数（immediate value）0移动到（mov）一个由rbp（基指针寄存器）减去28个字节所指向的内存位置。这里的DWORD PTR表示操作的是双字（Double Word）大小的数据，即32位（4字节）的整数。因此，这行代码的作用是将栈上的一个局部变量的值设置为0，这个局部变量相对于rbp的偏移量是-28
+        jmp     .L11  //无条件跳转（jmp）到标签.L12所标记的代码位置(.L12判断这个变量的值是不是小于等于9999999)
+.L18:
+        mov     DWORD PTR [rbp-28], 0  //一个Double需要4个字节，所以内存位置差4
+        jmp     .L12
+.L17:
+        mov     DWORD PTR [rbp-32], 0
+        jmp     .L13
+.L16:
+        mov     DWORD PTR [rbp-36], 0
+        jmp     .L14
+.L15:
+        mov     rax, QWORD PTR c[rip]  //从rip（指令指针寄存器）相对偏移处加载一个64位（QWORD）指针到rax，这个指针指向一个数组c的基地址
+        mov     edx, DWORD PTR [rbp-24]  //从栈上（相对于rbp的偏移）读取三个32位（DWORD）整数，分别存储在rbp-24、rbp-32、rbp-28
+        //这些整数进行位移（左移，相当于乘以2的幂）和累加操作，以计算出一个索引
+        sal     edx, 4  //位移
+        movsx   rcx, edx  //带符号扩展
+        mov     edx, DWORD PTR [rbp-32]
+        sal     edx, 2
+        movsx   rdx, edx
+        add     rcx, rdx  //累加
+        mov     edx, DWORD PTR [rbp-28]
+        movsx   rdx, edx
+        add     rdx, rcx
+        sal     rdx, 3
+        add     rax, rdx
+        vmovsd  xmm1, QWORD PTR [rax]  //使用这个索引加上rax中的基地址，计算出最终的内存地址，并从该地址加载一个双精度浮点数（64位，QWORD）到xmm1
+        mov     rcx, QWORD PTR a[rip]
+        mov     edx, DWORD PTR [rbp-24]
+        mov     eax, edx
+        add     eax, eax
+        add     eax, edx
+        sal     eax, 4
+        movsx   rsi, eax
+        mov     edx, DWORD PTR [rbp-32]
+        mov     eax, edx
+        add     eax, eax
+        add     eax, edx
+        sal     eax, 2
+        cdqe  //将32位寄存器（如eax）的值符号扩展到64位寄存器（如rax）
+        lea     rdx, [rsi+rax]  //计算rsi和rax两个寄存器值的和，并将结果存储在rdx寄存器中
+        mov     eax, DWORD PTR [rbp-36]
+        cdqe
+        add     rax, rdx
+        sal     rax, 3
+        add     rax, rcx
+        vmovsd  xmm2, QWORD PTR [rax]
+        mov     rcx, QWORD PTR b[rip]
+        mov     edx, DWORD PTR [rbp-24]
+        mov     eax, edx
+        add     eax, eax
+        add     eax, edx
+        sal     eax, 4
+        movsx   rdx, eax
+        mov     eax, DWORD PTR [rbp-36]
+        sal     eax, 2
+        cdqe
+        add     rdx, rax
+        mov     eax, DWORD PTR [rbp-28]
+        cdqe
+        add     rax, rdx
+        sal     rax, 3
+        add     rax, rcx
+        vmovsd  xmm0, QWORD PTR [rax]
+        vmulsd  xmm0, xmm2, xmm0  //执行一个双精度浮点数的乘法操作。它将xmm2寄存器和xmm0寄存器中的双精度浮点数相乘，并将结果存储回xmm0寄存器中
+        mov     rax, QWORD PTR c[rip]
+        mov     edx, DWORD PTR [rbp-24]
+        sal     edx, 4
+        movsx   rcx, edx
+        mov     edx, DWORD PTR [rbp-32]
+        sal     edx, 2
+        movsx   rdx, edx
+        add     rcx, rdx
+        mov     edx, DWORD PTR [rbp-28]
+        movsx   rdx, edx
+        add     rdx, rcx
+        sal     rdx, 3
+        add     rax, rdx
+        vaddsd  xmm0, xmm1, xmm0
+        vmovsd  QWORD PTR [rax], xmm0
+        add     DWORD PTR [rbp-36], 1  //循环变量累加
+.L14:
+        cmp     DWORD PTR [rbp-36], 11  //判断循环是否结束
+        jle     .L15
+        add     DWORD PTR [rbp-32], 1
+.L13:
+        cmp     DWORD PTR [rbp-32], 3
+        jle     .L16
+        add     DWORD PTR [rbp-28], 1
+.L12:
+        cmp     DWORD PTR [rbp-28], 3
+        jle     .L17
+        add     DWORD PTR [rbp-24], 1
+.L11:
+        cmp     DWORD PTR [rbp-24], 9999999
+        jle     .L18
+```  
+
+AVX指令集实现的汇编代码  
+
+```assembly  
+        mov     DWORD PTR [rbp-40], 0
+        jmp     .L19
+.L35:
+        mov     rcx, QWORD PTR a[rip]
+        mov     edx, DWORD PTR [rbp-40]
+        mov     eax, edx
+        add     eax, eax
+        add     eax, edx
+        sal     eax, 4
+        cdqe
+        sal     rax, 3
+        add     rax, rcx
+        mov     QWORD PTR [rbp-240], rax
+        mov     rcx, QWORD PTR b[rip]
+        mov     edx, DWORD PTR [rbp-40]
+        mov     eax, edx
+        add     eax, eax
+        add     eax, edx
+        sal     eax, 4
+        cdqe
+        sal     rax, 3
+        add     rax, rcx
+        mov     QWORD PTR [rbp-248], rax
+        mov     rax, QWORD PTR d[rip]
+        mov     edx, DWORD PTR [rbp-40]
+        sal     edx, 4
+        movsx   rdx, edx
+        sal     rdx, 3
+        add     rax, rdx
+        mov     QWORD PTR [rbp-256], rax
+        mov     rax, QWORD PTR [rbp-240]
+        mov     QWORD PTR [rbp-56], rax
+        mov     rax, QWORD PTR [rbp-240]
+        add     rax, 96
+        mov     QWORD PTR [rbp-64], rax
+        mov     rax, QWORD PTR [rbp-240]
+        add     rax, 192
+        mov     QWORD PTR [rbp-72], rax
+        mov     rax, QWORD PTR [rbp-240]
+        add     rax, 288
+        mov     QWORD PTR [rbp-80], rax
+        vxorpd  xmm0, xmm0, xmm0  //对双精度浮点数执行按位异或（XOR）操作。不过，在这个特定的例子中，由于源操作数和目标操作数都是同一个寄存器（xmm0），这条指令的效果实际上是将xmm0寄存器中的所有位都设置为0。
+        vmovapd YMMWORD PTR [rbp-112], ymm0  //将ymm0寄存器中存储的256位（32个双精度浮点数）双精度浮点数数据移动到由rbp-112指定的内存地址处
+        vxorpd  xmm0, xmm0, xmm0
+        vmovapd YMMWORD PTR [rbp-144], ymm0
+        vxorpd  xmm0, xmm0, xmm0
+        vmovapd YMMWORD PTR [rbp-176], ymm0
+        vxorpd  xmm0, xmm0, xmm0
+        vmovapd YMMWORD PTR [rbp-208], ymm0
+        mov     DWORD PTR [rbp-44], 0
+        jmp     .L24
+.L34:
+        mov     rax, QWORD PTR [rbp-56]
+        lea     rdx, [rax+8]
+        mov     QWORD PTR [rbp-56], rdx
+        vmovsd  xmm0, QWORD PTR [rax]
+        vmovsd  QWORD PTR [rbp-264], xmm0
+        mov     rax, QWORD PTR [rbp-64]
+        lea     rdx, [rax+8]
+        mov     QWORD PTR [rbp-64], rdx
+        vmovsd  xmm0, QWORD PTR [rax]
+        vmovsd  QWORD PTR [rbp-272], xmm0
+        mov     rax, QWORD PTR [rbp-72]
+        lea     rdx, [rax+8]
+        mov     QWORD PTR [rbp-72], rdx
+        vmovsd  xmm0, QWORD PTR [rax]
+        vmovsd  QWORD PTR [rbp-280], xmm0
+        mov     rax, QWORD PTR [rbp-80]
+        lea     rdx, [rax+8]
+        mov     QWORD PTR [rbp-80], rdx
+        vmovsd  xmm0, QWORD PTR [rax]
+        vmovsd  QWORD PTR [rbp-288], xmm0
+        mov     eax, DWORD PTR [rbp-44]
+        sal     eax, 2
+        cdqe
+        lea     rdx, [0+rax*8]
+        mov     rax, QWORD PTR [rbp-248]
+        add     rax, rdx
+        mov     QWORD PTR [rbp-960], rax
+        mov     rax, QWORD PTR [rbp-960]
+        vmovupd ymm0, YMMWORD PTR [rax]  //从rax指向的地址加载256位（32字节）的未对齐双精度浮点数数据到ymm0寄存器。
+        vmovapd YMMWORD PTR [rbp-336], ymm0  //将ymm0寄存器中的256位双精度浮点数数据存储到栈上的rbp-336位置
+        vmovsd  xmm0, QWORD PTR [rbp-264]  //从栈上的rbp-264位置加载一个64位（8字节）的双精度浮点数到xmm0寄存器的低64位。
+        vmovsd  QWORD PTR [rbp-952], xmm0  //将xmm0寄存器中的64位双精度浮点数数据存储到栈上的rbp-952位置
+        vbroadcastsd    ymm0, QWORD PTR [rbp-952]
+        vmovapd YMMWORD PTR [rbp-368], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-368]
+        vmovapd YMMWORD PTR [rbp-880], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-336]
+        vmovapd YMMWORD PTR [rbp-912], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-112]
+        vmovapd YMMWORD PTR [rbp-944], ymm0
+        vmovapd ymm1, YMMWORD PTR [rbp-912]
+        vmovapd ymm0, YMMWORD PTR [rbp-944]
+        vfmadd231pd     ymm0, ymm1, YMMWORD PTR [rbp-880]  //执行一个三操作数的浮点乘法加法操作。具体来说，它将ymm1寄存器中的每个双精度浮点数与rbp-880地址处的相应双精度浮点数相乘，然后将乘积加到ymm0寄存器中对应位置的双精度浮点数上
+        nop
+        vmovapd YMMWORD PTR [rbp-112], ymm0  
+        vmovsd  xmm0, QWORD PTR [rbp-272]
+        vmovsd  QWORD PTR [rbp-824], xmm0
+        vbroadcastsd    ymm0, QWORD PTR [rbp-824]
+        vmovapd YMMWORD PTR [rbp-400], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-400]
+        vmovapd YMMWORD PTR [rbp-752], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-336]
+        vmovapd YMMWORD PTR [rbp-784], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-144]
+        vmovapd YMMWORD PTR [rbp-816], ymm0
+        vmovapd ymm1, YMMWORD PTR [rbp-784]
+        vmovapd ymm0, YMMWORD PTR [rbp-816]
+        vfmadd231pd     ymm0, ymm1, YMMWORD PTR [rbp-752]
+        nop
+        vmovapd YMMWORD PTR [rbp-144], ymm0
+        vmovsd  xmm0, QWORD PTR [rbp-280]
+        vmovsd  QWORD PTR [rbp-696], xmm0
+        vbroadcastsd    ymm0, QWORD PTR [rbp-696]
+        vmovapd YMMWORD PTR [rbp-432], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-432]
+        vmovapd YMMWORD PTR [rbp-624], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-336]
+        vmovapd YMMWORD PTR [rbp-656], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-176]
+        vmovapd YMMWORD PTR [rbp-688], ymm0
+        vmovapd ymm1, YMMWORD PTR [rbp-656]
+        vmovapd ymm0, YMMWORD PTR [rbp-688]
+        vfmadd231pd     ymm0, ymm1, YMMWORD PTR [rbp-624]
+        nop
+        vmovapd YMMWORD PTR [rbp-176], ymm0
+        vmovsd  xmm0, QWORD PTR [rbp-288]
+        vmovsd  QWORD PTR [rbp-568], xmm0
+        vbroadcastsd    ymm0, QWORD PTR [rbp-568]
+        vmovapd YMMWORD PTR [rbp-464], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-464]
+        vmovapd YMMWORD PTR [rbp-496], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-336]
+        vmovapd YMMWORD PTR [rbp-528], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-208]
+        vmovapd YMMWORD PTR [rbp-560], ymm0
+        vmovapd ymm1, YMMWORD PTR [rbp-528]
+        vmovapd ymm0, YMMWORD PTR [rbp-560]
+        vfmadd231pd     ymm0, ymm1, YMMWORD PTR [rbp-496]
+        nop
+        vmovapd YMMWORD PTR [rbp-208], ymm0
+        add     DWORD PTR [rbp-44], 1
+.L24:
+        cmp     DWORD PTR [rbp-44], 11
+        jle     .L34
+        mov     rax, QWORD PTR [rbp-256]
+        mov     QWORD PTR [rbp-1144], rax
+        vmovapd ymm0, YMMWORD PTR [rbp-112]
+        vmovapd YMMWORD PTR [rbp-1200], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-1200]
+        mov     rax, QWORD PTR [rbp-1144]
+        vmovupd YMMWORD PTR [rax], ymm0
+        nop
+        mov     rax, QWORD PTR [rbp-256]
+        add     rax, 32
+        mov     QWORD PTR [rbp-1080], rax
+        vmovapd ymm0, YMMWORD PTR [rbp-144]
+        vmovapd YMMWORD PTR [rbp-1136], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-1136]
+        mov     rax, QWORD PTR [rbp-1080]
+        vmovupd YMMWORD PTR [rax], ymm0
+        nop
+        mov     rax, QWORD PTR [rbp-256]
+        add     rax, 64
+        mov     QWORD PTR [rbp-1016], rax
+        vmovapd ymm0, YMMWORD PTR [rbp-176]
+        vmovapd YMMWORD PTR [rbp-1072], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-1072]
+        mov     rax, QWORD PTR [rbp-1016]
+        vmovupd YMMWORD PTR [rax], ymm0
+        nop
+        mov     rax, QWORD PTR [rbp-256]
+        add     rax, 96
+        mov     QWORD PTR [rbp-968], rax
+        vmovapd ymm0, YMMWORD PTR [rbp-208]
+        vmovapd YMMWORD PTR [rbp-1008], ymm0
+        vmovapd ymm0, YMMWORD PTR [rbp-1008]
+        mov     rax, QWORD PTR [rbp-968]
+        vmovupd YMMWORD PTR [rax], ymm0
+        nop
+        add     DWORD PTR [rbp-40], 1
+.L19:
+        cmp     DWORD PTR [rbp-40], 9999999
+        jle     .L35
+```  
+
+其实感觉也看不出什么东西来。`for` 循环的实现中  
+```c  
+*(c + n * 16 + i * 4 + k) += *(a + n * 48 + i * 12 + j) * *(b + n * 48 + j * 4 + k);
+```  
+汇编代码会很复杂，先把n,i,j,k取出来，移位，算索引，取数据，相乘，累加； AVX的实现中将原来的四个 `for` 循环减少到了两个，使用AVX指令集后向量运算也比较简洁，但是向量运算前后的load和重新写入内存的开销明显更多，对内存的读写应该是可以进一步优化的。  
+
+## Lab5 简单神经网络训练与加速  
+- [ ] Transformer 模型的训练  
+
+### 实验介绍  
+**深度学习（Deep Learning）** 是机器学习的分支，是一种以人工神经网络为架构，对数据进行表征学习的算法。其中，网络的训练过程对算力的要求巨大，也因此成为 HPC 领域经常研究的话题。  
+
+**注意力机制（Self-Attention）** 是深度学习中的一种网络结构，也是 **Transformer 架构**中的核心部分。
+
+### 实验环境  
+集群提供两张 A100 40G，一张 A100 80G 和两张 2080ti 显卡。  
+
+新建一个 python 版本为 3.12 的空环境，并使用 `pip install -r requirements.txt` 安装所必须的包。  
+
+```bash
+conda create -n mytorch python=3.12
+pip install -r requirements.txt  
+```  
+
+```text  
+# requirements.txt
+aiohttp==3.9.5
+aiosignal==1.3.1
+attrs==23.2.0
+certifi==2024.7.4
+charset-normalizer==3.3.2
+click==8.1.7
+datasets==2.20.0
+dill==0.3.8
+docutils==0.21.2
+filelock==3.15.4
+frozenlist==1.4.1
+fsspec==2024.5.0
+huggingface-hub==0.23.4
+idna==3.7
+Jinja2==3.1.4
+joblib==1.4.2
+MarkupSafe==2.1.5
+mpmath==1.3.0
+multidict==6.0.5
+multiprocess==0.70.16
+networkx==3.3
+nltk==3.8.1
+numpy==1.26.4
+nvidia-cublas-cu12==12.1.3.1
+nvidia-cuda-cupti-cu12==12.1.105
+nvidia-cuda-nvrtc-cu12==12.1.105
+nvidia-cuda-runtime-cu12==12.1.105
+nvidia-cudnn-cu12==8.9.2.26
+nvidia-cufft-cu12==11.0.2.54
+nvidia-curand-cu12==10.3.2.106
+nvidia-cusolver-cu12==11.4.5.107
+nvidia-cusparse-cu12==12.1.0.106
+nvidia-nccl-cu12==2.20.5
+nvidia-nvjitlink-cu12==12.5.82
+nvidia-nvtx-cu12==12.1.105
+packaging==24.1
+pandas==2.2.2
+pillow==10.4.0
+pyarrow==16.1.0
+pyarrow-hotfix==0.6
+python-dateutil==2.9.0.post0
+pytz==2024.1
+PyYAML==6.0.1
+regex==2024.5.15
+requests==2.32.3
+safetensors==0.4.3
+six==1.16.0
+sympy==1.13.0
+tokenizers==0.19.1
+torch==2.3.1
+torchaudio==2.3.1
+torchvision==0.18.1
+tqdm==4.66.4
+transformers==4.42.3
+triton==2.3.1
+typing_extensions==4.12.2
+tzdata==2024.1
+urllib3==2.2.2
+xxhash==3.4.1
+yarl==1.9.4
+```  
+
+这里我重装了一台 Ubuntu 虚拟机，在这个很干净的系统上装了 VS Code 和 Ananconda。接着尝试在 VS Code 中使用 conda 配置 Python 虚拟环境，具体可以参考 [CSDN](https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172249837516800188578310%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=172249837516800188578310&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-138613865-null-null.142^v100^pc_search_result_base8&utm_term=%E5%9C%A8vscode%E4%B8%AD%E5%88%9B%E5%BB%BAconda&spm=1018.2226.3001.4187)。  

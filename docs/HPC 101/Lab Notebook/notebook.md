@@ -3071,4 +3071,13 @@ xxhash==3.4.1
 yarl==1.9.4
 ```  
 
-这里我重装了一台 Ubuntu 虚拟机，在这个很干净的系统上装了 VS Code 和 Ananconda。接着尝试在 VS Code 中使用 conda 配置 Python 虚拟环境，具体可以参考 [CSDN](https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172249837516800188578310%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=172249837516800188578310&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-138613865-null-null.142^v100^pc_search_result_base8&utm_term=%E5%9C%A8vscode%E4%B8%AD%E5%88%9B%E5%BB%BAconda&spm=1018.2226.3001.4187)。  
+这里我重装了一台 Ubuntu 虚拟机，在这个很干净的系统上装了 VS Code 和 Ananconda。接着在 VS Code 中使用 conda 配置 Python 虚拟环境，具体可以参考 [CSDN](https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172249837516800188578310%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=172249837516800188578310&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-138613865-null-null.142^v100^pc_search_result_base8&utm_term=%E5%9C%A8vscode%E4%B8%AD%E5%88%9B%E5%BB%BAconda&spm=1018.2226.3001.4187)。  
+
+这里下载包用的是[清华源](https://pypi.tuna.tsinghua.edu.cn/simple)，总体效果非常好  
+
+![alt text](image-107.png)  
+
+然后在虚拟机上配置 SSH 连接到 ZJUSCT 的集群。在使用 Terminal 成功 ping 通后又尝试了在 VS Code 中用 Remote-SSH。如果是 Terminal 直接连接的话只要把端口设置为 `-p 443` 即可；如果是用 Remote-SSH 需要挂上浙大的 RVPN（看98上说默认的22端口被封住了，应该是也必须从443端口连接，不过我没有试验）。  
+
+### 实验基础知识  
+

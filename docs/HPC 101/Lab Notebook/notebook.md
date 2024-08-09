@@ -3081,3 +3081,102 @@ yarl==1.9.4
 
 ### 实验基础知识  
 
+这个实验本质就是在复现那篇著名的文章 [Attention Is All You Need](http://arxiv-org-s.webvpn.zju.edu.cn:8001/pdf/1706.03762) 中基于 Transformer 架构的机器翻译。那么首先就要理解 Transformer 架构。  
+
+对 Transformer 形成一个框架可以看[b站视频](https://www.bilibili.com/video/BV1Ab421Y7D6/?spm_id_from=333.788&vd_source=5742e02a7566918d65a441adce5bc163)，接着看 [3Blue1Brown](https://www.bilibili.com/video/BV13z421U7cs/?spm_id_from=333.999.0.0&vd_source=5742e02a7566918d65a441adce5bc163) 可视化 Transformer 的两个视频。
+
+#### Model Architecture  
+
+![alt text](image-109.png)
+
+#### Attention  
+An attention function can be described as mapping a **query** and a set of **key-value pairs** to an output, where the query, keys, values, and output are all vectors. The output is computed as <u>a weighted sum of the values</u>, where the weight assigned to each value is computed by a **compatibility function** of the query with the corresponding key.  
+
+![alt text](image-108.png)  
+
+#### Embeddings and Softmax  
+Similarly to other sequence transduction models, we use **learned embeddings** to <u>convert the input tokens and output tokens to vectors of dimension d~model~ </u>. We also use the usual learned **linear transformation** and **softmax function** to <u>convert the decoder output to predicted next-token probabilities</u>. In our model, we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation. In the embedding layers, we multiply those weights by $\sqrt{d~model~}$.   
+
+```py  
+class InputEmbeddings(nn.Module):
+
+    def __init__(self, d_model: int, vocab_size: int):
+        super().__init__()
+        self.d_model = d_model
+        self.vocab_size = vocab_size
+        self.embedding = nn.Embedding(vocab_size, d_model)
+        # "nn.Embedding" is a class in Pytorch to "convert the input tokens and output tokens to vectors of dimension d_model"
+        
+    def forward(self, x):
+        return self.embedding(x) * math.sqrt(self.d_model)
+```
+
+#### Positional Encoding  
+Since our model contains no recurrence and no convolution, in order for the model to make use of <u>the order of the sequence</u>, we must inject some information about the relative or absolute position of the tokens in the sequence. To this end, we add "**positional encodings**" to the input embeddings at the bottoms of the encoder and decoder stacks. The positional encodings have the same dimension d~model~ as the embeddings, so that the two can be summed. There are many choices of positional encodings, learned and fixed [9].  
+
+In this work, we use sine and cosine functions of different frequencie:  
+
+![alt text](image-110.png)  
+
+We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset k, PE~pos+k~ can be represented as a linear function of PEpos.  
+
+![alt text](image-113.png)  
+
+```py  
+class PositionalEncoding(nn.Module):
+
+    def __init__(self, d_model: int, seq_len: int, dropout: float) -> None:
+        super().__init__()
+        self.d_model = d_model
+        self.seq_len = seq_len
+        # Reduce overfitting of neural networks
+        self.dropout = nn.Dropout(dropout)
+
+        # Create a matrix of shape <seq_len, d_model>  
+        pe = torch.zeros(seq_len, d_model)
+        # Create a vector of shape <seq_len, 1>
+        position = torch.arange(0, seq_len, dtype = torch.float).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+        # Apply the sin to even position
+        pe[:, 0::2] = torch.sin(position * div_term)
+        # Apply the cos to odd position
+        pe[:, 1::2] = torch.cos(position * div_term)
+        # Use the equivalent form of the original formula
+
+        # Add a new dimension "batch" to deal with a batch of sentences
+        pe = pe.unsqueeze(0) # <1, seq_len, d_model>  
+
+        # Register a given tensor or any other object as a buffer for the model
+        # It will be saved and loaded along with the model
+        self.register_buffer('pe', pe)
+
+    def forward(self, x):
+        x = x + (self.pe[:, :x.shape[1], :]).requires_grad_(False)
+        return self.dropout(x)
+```
+
+#### Add & Norm  
+For each item of a batch, we calculate a mean value and a variance independently, and then calculating the new value for each of them using their own mean value and their own variance.  
+
+![alt text](image-112.png)  
+
+We also introduce two parameters, usually called **gamma**(multiplicative) and **beta**(additive) that introduce some <u>fluctuations</u> in the data, because maybe having all values between 0 and 1 may be too restrictive for the introduce fluctuations when necessary.  
+
+```py  
+class LayerNormalization(nn.Module):
+
+    def __init__(self, eps:float = 1e-6) -> None:
+        super().__init__()
+        # In case "sigma = 0" or sigma being extremely small
+        self.eps = eps
+        # Register as model parameters, which means that these tensors will be updated during the training of the model (learnable)
+        self.alpha = nn.Parameter(torch.ones(1)) # multiplicative
+        self.bias = nn.Parameter(torch.zeros(1)) # additive  
+
+    def forward(self, x):
+        mean = x.mean(dim = -1, keepdim = True)
+        std = x.std(dim = -1, keepdim = True)
+        return self.alpha * (x - mean) / (std + self.eps) + self.bias
+```
+
+#### 

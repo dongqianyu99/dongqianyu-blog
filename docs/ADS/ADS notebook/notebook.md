@@ -1,6 +1,6 @@
 # ADS
 
-## Lesson 1
+## Chapter 1: Tree
 
 ### AVL Trees 
 
@@ -128,4 +128,42 @@ case 2: u has two child
 - splay the largest element v in A
 - attach B to v
 
- 
+### B+ Tree
+
+```
+A B+ tree of order M is an M-ary tree with the following properties:
+
+1. The data items are stored at leaves
+2. The nonleaf nodes store up to M - 1 keys to guide the searching; key i represents the smallest key in subtree i + 1
+3. The root is either a leaf or has between two and M children
+4. All nonleaf nodes(excpet the root) have betweeen [M / 2] and M children(fanout of an internal node); for root is between 2 and M
+5. All leaves are at the same depth and have between [M / 2] and M data items; for root being the leaf is between 1 and M 
+```
+
+![alt text](image-11.png)
+
+## Chapter 2: Heap
+
+### Leftist Heap
+
+define the **null path length**, *npl(X)*, of ant node X to be the length of the shortest path from X to a node without two children
+
+the *npl* of a node with zero or one child is 0, while *npl*(nullptr) = -1
+
+```
+for every node X in the heap, the null path length of the left child is at least as large as that of the right child
+(for each u, the right decending path from u to null is one of the shortest path from u to null)
+
+ensure the tree is unbalanced, tend to have deep left paths and is preferable to facilitate merging
+```
+
+![alt text](image-12.png)
+
+```
+Lemma:
+For a leftist heap with n nodes, its right path has at most log2(n + 1) nodes.
+<==> A leftist heap with r nodes on the right path must have at least 2^r - 1 nodes.
+```
+
+#### merge
+

@@ -79,10 +79,10 @@ nav:   #目录
       - Lab3 Report: HPC 101/Lab Reports/lab3 report/lab3 report.md
       - Lab5 Report: HPC 101/Lab Reports/lab5 report/lab5 report.md
     - PAC Notebook: HPC 101/PAC Note/PAC Notebook.md
-  - ADS:
-    - ADS Notebook: ADS/ADS notebook/notebook.md
-  - 计算机组成: 
-    - 计组 Notebook: 计算机组成/计组 notebook/notebook.md
+  # - ADS:
+  #   - ADS Notebook: ADS/ADS notebook/notebook.md
+  # - 计算机组成: 
+  #   - 计组 Notebook: 计算机组成/计组 notebook/notebook.md
 
 copyright: Copyright &copy; 2022~2024 Lee/All Rights Reserved. # 左下角的版权声明
 

@@ -2,26 +2,26 @@
 
 ## HW-1
 
-1. If the depth of an AVL tree is 6 (the depth of an empty tree is defined to be -1), then the minimum possible number of nodes in this tree is:
-A. 13
-B. 17
-<mark>C. 20</mark>
+1. If the depth of an AVL tree is 6 (the depth of an empty tree is defined to be -1), then the minimum possible number of nodes in this tree is:  
+A. 13  
+B. 17  
+<mark>C. 20</mark>  
 D. 33  
 
-2. For the result of accessing the keys 3, 9, 1, 5 in order in the splay tree in the following figure, which one of the following statements is FALSE?
-![alt text](128.jpg)
-A. 5 is the root
-B. 1 and 9 are siblings
-C. 6 and 10 are siblings
+2. For the result of accessing the keys 3, 9, 1, 5 in order in the splay tree in the following figure, which one of the following statements is FALSE?  
+![alt text](128.jpg)  
+A. 5 is the root  
+B. 1 and 9 are siblings  
+C. 6 and 10 are siblings  
 <mark>D. 3 is the parent of 4</mark>  
 
-3. When doing amortized analysis, which one of the following statements is FALSE?
-A.Aggregate analysis shows that for all nn, a sequence of nn operations takes worst-case time T(n)T(n) in total.  Then the amortized cost per operation is therefore T(n)/nT(n)/n
-<mark>B. For potential method, a good potential function should always assume its maximum at the start of the sequence</mark>
-C. For accounting method, when an operation's amortized cost exceeds its actual cost, we save the difference as credit to pay for later operations whose amortized cost is less than their actual cost
-D. The difference between aggregate analysis and accounting method is that the later one assumes that the amortized costs of the operations may differ from each other
+3. When doing amortized analysis, which one of the following statements is FALSE?  
+A.Aggregate analysis shows that for all n, a sequence of nn operations takes worst-case time T(n) in total.  Then the amortized cost per operation is therefore T(n)/n  
+<mark>B. For potential method, a good potential function should always assume its maximum at the start of the sequence</mark>  
+C. For accounting method, when an operation's amortized cost exceeds its actual cost, we save the difference as credit to pay for later operations whose amortized cost is less than their actual cost  
+D. The difference between aggregate analysis and accounting method is that the later one assumes that the amortized costs of the operations may differ from each other  
 
-Root of AVL Tree
+#### Root of AVL Tree  
 ```c
 # include <stdio.h>
 # include <stdlib.h>

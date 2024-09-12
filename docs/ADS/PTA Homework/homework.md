@@ -5,8 +5,10 @@
 1. If the depth of an AVL tree is 6 (the depth of an empty tree is defined to be -1), then the minimum possible number of nodes in this tree is:  
 A. 13  
 B. 17  
-<mark>C. 20</mark>  
-D. 33  
+C. 20  
+==D. 33(32?)==
+
+![alt text](image.png)
 
 2. For the result of accessing the keys 3, 9, 1, 5 in order in the splay tree in the following figure, which one of the following statements is FALSE?  
 ![alt text](128.jpg)  
@@ -141,3 +143,22 @@ int main()
     return 0;
 }
 ```
+
+## EX-1
+
+1. Amortized bounds are weaker than the corresponding worst-case bounds, because there is no guarantee for any single operation.  
+==A. T==  
+B. F  
+
+2. Suppose we have a potential function $\phi$ such that for all $\phi$(Di)$\geq$$\phi$(D0) for all ii, but $\phi$(D0)$\neq$0. Then there exists a potential $\phi$′ such that $\phi$′(D0)=0, $\phi$′(Di)$\geq$0 for all i$\geq$1, and the amortized costs using $\phi$′ are the same as the amortized costs using $\phi$.  
+==A. T==  
+B. F
+
+1. For the result of accessing the keys 1 and 2 in order in the splay tree in the following figure, let's define size(v)=number of nodes in subtree of v ( vv included ) and potential $\phi$=$\sum$v[log~⁡2~size(v)], where [x] means the greatest interger no larger than x.  
+How many of the following statements is/are TRUE?
+- the potential change from the initial tree to the resulted tree is -4 ==(-5?)==  
+- ==1 is the sibling of 4==  
+- ==5 is the child of 6==  
+
+![alt text](071d7a8c-c028-4160-a47c-398cf901bc96.png)
+

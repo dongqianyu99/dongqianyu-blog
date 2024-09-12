@@ -154,11 +154,11 @@ B. F
 ==A. T==  
 B. F
 
-1. For the result of accessing the keys 1 and 2 in order in the splay tree in the following figure, let's define size(v)=number of nodes in subtree of v ( vv included ) and potential $\phi$=$\sum$v[log~⁡2~size(v)], where [x] means the greatest interger no larger than x.  
+3. For the result of accessing the keys 1 and 2 in order in the splay tree in the following figure, let's define size(v)=number of nodes in subtree of v ( vv included ) and potential $\phi$=$\sum$v[log~⁡2~size(v)], where [x] means the greatest interger no larger than x.  
 How many of the following statements is/are TRUE?
-- the potential change from the initial tree to the resulted tree is -4 ==(-5?)==  
-- ==1 is the sibling of 4==  
-- ==5 is the child of 6==  
+   - the potential change from the initial tree to the resulted tree is -4 ==(-5?)==  
+   - ==1 is the sibling of 4==  
+   - ==5 is the child of 6==  
 
 ![alt text](071d7a8c-c028-4160-a47c-398cf901bc96.png)
 

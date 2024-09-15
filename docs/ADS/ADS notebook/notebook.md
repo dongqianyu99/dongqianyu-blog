@@ -6,14 +6,14 @@
 
 #### Defination
 
->The height of an empty tree is defined to be -1  
+>The height of an empty tree is defined to be **-1**  
 
 >An empty binary tree is height balanced.   
 >If T is a nonempty binary tree with T~L~ and T~R~ as its left and right subtrees, then T is height balanced if  
 >1. T~L~ and T~R~ are height balanced  
 >2. **|h~L~ - h~R~| <= 1**  
 >  
->The **balance factor** BF(node) = h~L~ - h~R~; In an AVL tree, BF(node) = -1, 0 or 1
+>The **balance factor** **BF(node)** = h~L~ - h~R~; In an AVL tree, BF(node) = -1, 0 or 1
 
 #### Implementation
 
@@ -175,7 +175,7 @@ Insert( ElementType X, AvlTree T )
 
 #### Defination
 
->After a node is accessed, it is pushed to the root a series of AVL tree rotations  
+>After a node is accessed, it is **pushed to the root** a series of AVL tree rotations  
 
 >Target:  
 >Any M consecutive tree operations starting **from an empty** tree take at most **O(MlogN)** time  
@@ -187,22 +187,22 @@ easy to implement, no extra space, adaptive(continuous access)
 ##### Splay(X)
 For any nonroot node X, denote its parent by P and gradparent by G:  
 
-case 1(zig): P is the root -> Rotate X and P  
+*case 1(zig)*: P is the root -> Rotate X and P  
 
-case 2: P is not the root  
-- zig-zag -> double rotation(same as AVL)  
+*case 2*: P is not the root  
+- *zig-zag* ==> double rotation(same as AVL)  
     ![alt text](image-19.png)
 
-- zig-zig -> single rotation(different from AVL)  
+- *zig-zig* ==> single rotation(*different from AVL*)  
     ![alt text](image-20.png)
 
 ##### Findkey
 1. find as in BST  
-2. splay the found node  
+2. *splay the found node*  
 
 ##### Insert
 1. insert as in BST  
-2. splay the new node  
+2. *splay the new node*  
 
 ##### Delete(X)
 1. Find(X) -> X will be at the root  
@@ -305,12 +305,12 @@ Remove( ElementType Item, SplayTree T )
 
 ### Amortized Analysis
 
-consider the worst-case running time for any sequence of M operations  
+consider the worst-case running time for any **sequence of M operations**  
 
 >Target:
 >Any M consecutive operations (**from initial stat**) take at most **O(MlogN)** time -- **Amortized time bound**  
 
-**worst-case bound >= amortized bound >= average-case bound**    
+>**worst-case bound >= amortized bound >= average-case bound**    
 
 #### Aggregate analysis
 e.g. *Stack with MultiPop*  
@@ -392,12 +392,14 @@ e.g.
 >2. bh(Tree) >= h(Tree) / 2  
 ![alt text](image-31.png)  
 
-#### Insert
+#### Implementation
+
+##### Insert
 
 >1. insert it as in BST  
->2. mark the new node red  
+>2. **mark the new node red**  
 
-*case 1:* parent is black -> Done  
+*case 1:* parent is black ==> Done  
 
 *case 2:* parent is red & uncle is red  
 
@@ -414,19 +416,46 @@ e.g.
 
 symmetric as the same  
 
-#### Delete
+##### Delete
 
-##### Simple Delete
-as if in BST  
-==> x has no child or has only one child, x is black and the child is red 
+###### Simple Delete
+as if in BST(**only change the key, keep the color**)  
+==> u(the node should be deleted) has no child or has only one child, u is black and the child is red 
 
-##### Adjustment
+###### Adjustment  
 
-- x is red -> Done  
+*x is the problem node*(suppose x on the left, symmetric as the same)
 
-- x is black -> **Must add 1 black to the path of the replacing node**  
+- x is red ==> Done  
 
-*case 1:* x's sibling(w) is red ->
+- x is black ==> **Must add 1 black to the path of the replacing node**  
+
+*case 1:* x's sibling(w) is red ==> change parent & w'color + rotate towards x  
+
+![alt text](image-32.png)  
+
+
+*case 2:* w is black & w's children are all black ==> change w into red  
+- *case 2.1:* parent is red ==> change parent into black  
+- *case 2.2:* parent is black ==> x change into its parent, continue to add 1 black to the path of x(new x)  
+
+![alt text](image-33.png)  
+  
+*case 3:* w is black & w's left child is red & right child is black ==> change w into red + do RR Rotation ==> *case 4*  
+
+*case 4:* w is black & w's right child is red ==> color change: w's right child into black, w into parent's color, parent into black + parent rotate towards x  
+
+![alt text](image-34.png)  
+
+e.g.  
+
+![alt text](image-35.png)  
+
+Number of *rotations*
+|   |AVL|Red-Black Tree|
+|---|---|--------------|
+|Insertion|<=2|<=2|
+|Deletion|O(logN)|<=3|
 
 ### B+ Tree
 

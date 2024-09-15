@@ -159,6 +159,25 @@ How many of the following statements is/are TRUE?
 a. the potential change from the initial tree to the resulted tree is -4 ==(-5?)==  
 b. ==1 is the sibling of 4==  
 c. ==5 is the child of 6==  
-
 ![alt text](071d7a8c-c028-4160-a47c-398cf901bc96.png)
 
+## HW-2  
+
+1. In the red-black tree that results after successively inserting the keys 41; 38; 31; 12; 19; 8 into an initially empty red-black tree, which one of the following statements is FALSE?  
+A. 38 is the root  
+==B. 19 and 41 are siblings, and they are both red(41 is black)==  
+C. 12 and 31 are siblings, and they are both black  
+D. 8 is red  
+
+2. After deleting 15 from the red-black tree given in the figure, which one of the following statements **must be**(two way of deletion) FALSE?  
+![alt text](129.jpg)  
+A. 11 is the parent of 17, and 11 is black  
+B. 17 is the parent of 11, and 11 is red  
+==C. 11 is the parent of 17, and 11 is red==  
+D. 17 is the parent of 11, and 17 is black  
+
+3. Insert 3, 1, 4, 5, 9, 2, 6, 8, 7, 0 into an initially empty 2-3 tree (with splitting).  Which one of the following statements is FALSE?  
+A. 7 and 8 are in the same node  
+B. the parent of the node containing 5 has 3 children  
+C. the first key stored in the root is 6  
+D. there are 5 leaf nodes  

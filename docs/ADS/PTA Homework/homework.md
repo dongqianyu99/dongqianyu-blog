@@ -23,7 +23,7 @@ A.Aggregate analysis shows that for all n, a sequence of nn operations takes wor
 C. For accounting method, when an operation's amortized cost exceeds its actual cost, we save the difference as credit to pay for later operations whose amortized cost is less than their actual cost  
 D. The difference between aggregate analysis and accounting method is that the later one assumes that the amortized costs of the operations may differ from each other  
 
-#### Root of AVL Tree  
+### Root of AVL Tree  
 ```c
 # include <stdio.h>
 # include <stdlib.h>
@@ -181,3 +181,12 @@ A. 7 and 8 are in the same node
 B. the parent of the node containing 5 has 3 children  
 C. the first key stored in the root is 6  
 D. there are 5 leaf nodes  
+
+4. After deleting 9 from the 2-3 tree given in the figure, which one of the following statements is FALSE?  
+![alt text](130.jpg)  
+A. the root is full  
+B. the second key stored in the root is 6  
+C. 6 and 8 are in the same node  
+==D. 6 and 5 are in the same node==  
+
+### Self-printable B+ Tree

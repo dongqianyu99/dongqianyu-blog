@@ -11,7 +11,6 @@ B. 17
 C. 20  
 ==D. 33==  
 **n~h~ = h~h-1~ + h~h-2~ + 1**
-
 ![alt text](image.png)
 <br/>
 2. For the result of accessing the keys 3, 9, 1, 5 in order in the splay tree in the following figure, which one of the following statements is FALSE?  

@@ -110,15 +110,15 @@ Yield: proportion of working dies per wafer
 
 Performance = 1 / Excution Time
 
-e.g. 10s on A, 15s on B
-Excution Time~B~ / Excution Time~A~ / = 15s / 10s = 1.5
-So A is 1.5 times faster than B
+e.g. 10s on A, 15s on B  
+Excution Time~B~ / Excution Time~A~ / = 15s / 10s = 1.5  
+So A is 1.5 times faster than B  
 
 #### Measuring Excution Time
 
-- **Elapsed time**: Total response time, including all aspects
-  - Processing, I/O, OS overhead, idle time
-- **CPU time**: Time spent porcessing a given job
+- **Elapsed time**: Total response time, including all aspects  
+  - Processing, I/O, OS overhead, idle time  
+- **CPU time**: Time spent porcessing a given job  
 
 Operation of digital harware governed by a constant-rate clock
 

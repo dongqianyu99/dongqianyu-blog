@@ -538,3 +538,18 @@ int main()
     return 0;
 }
 ```
+
+## HW-3
+
+1. When evaluating the performance of data **retrieval**, it is important to measure the **relevancy** of the answer set.  
+A. T  
+==B. F==  
+<br/>
+2. While accessing a term by hashing in an inverted file index, range searches are expensive.  
+==A. T==  
+B. F  
+<br/>
+
+### Document Distance
+```c
+```

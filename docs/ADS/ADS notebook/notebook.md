@@ -526,6 +526,10 @@ Write the inverted index to disk;
   
 ### Measures for a search engine 
 
+- How fast does it index
+- How fast does it search
+- Expressiveness of query language
+
 #### Relevance measurement
 Relevance measurement requires 3 elements:
 - A benchmark document collection

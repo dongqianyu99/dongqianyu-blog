@@ -548,6 +548,15 @@ int main()
 }
 ```
 
+## EX-2
+
+1. (**WRONG**)If we insert N(N⩾2) nodes (with different integer elements) consecutively to build a red-black tree T from an empty tree, which of the following situations is possible:  
+A. All nodes in T are black  
+B. The number of leaf nodes (NIL) in T is 2N−1  
+C. 2N rotations occurred during the construction of T  
+D. The height of T is ⌈3log⁡2(N+1)⌉ (assume the height of the empty tree is 0)  
+
+
 ## HW-3
 
 1. When evaluating the performance of data **retrieval**, it is important to measure the **relevancy** of the answer set.  
@@ -562,3 +571,4 @@ B. F
 ### Document Distance
 ```c
 ```
+

@@ -185,8 +185,17 @@ a. the potential change from the initial tree to the resulted tree is -4 ==(-5?)
 b. ==1 is the sibling of 4==  
 c. ==5 is the child of 6==  
 ![alt text](071d7a8c-c028-4160-a47c-398cf901bc96.png)
-
 <br/>
+4. (**WRONG**)Insert { 9, 8, 7, 2, 3, 5, 6, 4 } one by one into an initially empty AVL tree. How many of the following statements is/are FALSE?  
+   - the total number of rotations made is 5 (Note: double rotation counts 2 and single rotation counts 1)  
+   - ==the expectation (round to 0.01) of access time is 2.75==  
+   - there are 2 nodes with a balance factor of -1  
+<br/>
+5. (**WRONG**)Which one of the following statements is FALSE?  
+A. For red-black trees, the total cost of rebalancing for m consecutive insertions in a tree of n nodes is O(n+m).  
+==B. To obtain O(1) armortized time for the function decrease-key, the potential function used for Fibonacci heaps is Φ(H)=t(H)+m(H), where t(H) is the number of trees in the root list of heap H, and m(H) is the number of marked nodes in H.(?)==  
+C. Let S(x) be the number of descendants of x (x included). If the potential function used for splay tree is Φ(T)=∑~x∈T~log⁡S(x), then the amortized cost of one splay operation is O(log⁡n).  
+D. In the potential method, the amortized cost of an operation is equal to the actual cost plus the increase in potential due to this operation.  
 
 ## HW-2  
 

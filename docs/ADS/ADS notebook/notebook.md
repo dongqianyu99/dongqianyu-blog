@@ -392,6 +392,8 @@ e.g.
 >1. A red-black tree with N internal nodes has height at most 2ln(N + 1).  
 >2. bh(Tree) >= h(Tree) / 2  
 ![alt text](image-31.png)  
+>3. The subtree of node x has at least 2^bh(x)^ - 1 internal nodes.
+[红黑树的时间复杂度分析](https://blog.csdn.net/l_o_s/article/details/105703296?ops_request_misc=&request_id=&biz_id=102&utm_term=%E7%BA%A2%E9%BB%91%E6%A0%91%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-7-105703296.142^v100^pc_search_result_base8&spm=1018.2226.3001.4187)
 
 #### Implementation
 
@@ -452,7 +454,7 @@ e.g.
 
 ![alt text](image-35.png)  
 
-Number of *rotations*
+Number of *rotations*  
 |   |AVL|Red-Black Tree|
 |---|---|--------------|
 |Insertion|<=2|<=2|

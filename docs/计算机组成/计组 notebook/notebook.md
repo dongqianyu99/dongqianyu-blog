@@ -122,3 +122,95 @@ So A is 1.5 times faster than B
 
 Operation of digital harware governed by a constant-rate clock
 
+![alt text](image-12.png)
+
+#### CPU Time
+
+![alt text](image-14.png)
+
+#### Instruction Count and CPI(Cycles per Instruction)
+
+![alt text](image-15.png)
+
+##### CPI in More Detail
+
+If different instruction classes take diferrent numbers of cycles
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
+
+#### Performance Summary
+
+![alt text](image-13.png)
+
+Performance depends on:
+- Algorithm: affects IC, possibly CPI
+- Programming language: affects IC, CPI
+- Compiler: affects IC, CPI
+- Instruction set architecture: affects IC, CPI, T~c~
+
+#### Amdahl's Law
+
+![alt text](image-18.png)
+
+Corollary: make the common case fast
+
+### Eight Great Ideas
+
+- Design for Moore's Law  
+- Use Abstraction to Simplify Design  
+- Make the Common Case Fast
+- Performance via Parallelism  
+- Performance via Pipelining  
+- Performance via Prediction  
+- Hierarchy of Memories  
+- Dependability via Redundancy  
+
+
+## Chapter 3: Arithmetic for Computer  
+
+### Introduction
+
+##### Generic Implementation
+
+- use program counter (PC) to link to instruction address  
+- fetch the instrcution from memeory  
+- the instruction tells what needs to be done  
+- ALU will perform the specified arithmetic operations  
+
+### Signed Number Representations  
+
+|Sign Magnitude|Two's Complement|
+|---------------------|----------|
+|100 = -0|100 = -4|
+|101 = -1|101 = -3|
+|110 = -2|110 = -2|
+|111 = -3|111 = -1|
+
+### Addition, subtraction and ALU  
+
+#### Addition & Subtraction  
+
+Subtraction: Addition of 2's complement  
+
+![alt text](image-19.png)  
+
+#### Overflow conditions  
+
+![alt text](image-20.png)  
+
+#### Overflow process  
+
+- Hardware detection in the ALU  
+  - Generation of an exception (interrupt)  
+- Save the instruction address (not PC) in special register EPC  
+- Jump to specific routine in OS  
+  - Correct & return to program  
+  - Return to program with error code  
+  - Abort program  
+
+#### Consturcting an ALU  
+
+Full adder Logic circuit  
+

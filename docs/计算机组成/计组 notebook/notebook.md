@@ -213,6 +213,7 @@ Subtraction: Addition of 2's complement
 #### Consturcting an ALU  
 
 1-bit Full Adder  
+**Ripple Carry Adder, RCA**
 
 ![alt text](image-21.png)
 
@@ -258,4 +259,19 @@ Use of sign bit as indicator
 We need 4-bits control lines, consisting of `Ainvert` , `Bnegate` , `Operation` (2-bits)  
 
 ![alt text](image-26.png)  
+
+#### A little bit faster  
+
+##### Carry Lookahead Adder, CLA  
+
+Time is wasted in RCA, for the next adder should wait for the previous adder to *carry*.
+
+Their are only two possibilities for ${carry = 1}$ (*carry* is passed): ${a = b = 1}$ or ${a \bigoplus b = 1, carry = 1}$  
+
+Therfore, we have,  
+
+${C_{out} = a \cdot b + (a + b)\cdot c_{in}}$  
+==> ${C_{out} = g + p\cdot c_{in}}$  (${generate g = a \cdot b, propagate p = a + b}$)  
+
+![alt text](image-27.png)  
 

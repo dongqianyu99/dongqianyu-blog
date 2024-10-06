@@ -212,5 +212,50 @@ Subtraction: Addition of 2's complement
 
 #### Consturcting an ALU  
 
-Full adder Logic circuit  
+1-bit Full Adder  
+
+![alt text](image-21.png)
+
+with a *mux*, we can let it support *and*, *or*, *+*, etc.  
+
+![alt text](image-22.png)
+
+##### Extended 1-bit ALU-- Subtraction  
+
+${a - b} = {a + (-b) = a + \overline{b} + 1}$  
+
+![alt text](image-23.png)  
+
+`Binvert` to define whether *b* should be inverted; if we do subtraction, we should set `Binvert` and `CarryIn` as `1`, `Operation` as `2`  
+
+##### Extended 1 bit ALU-- comparison  
+
+Subtraction $({rs - rt})$
+Use of sign bit as indicator  
+
+![alt text](image-24.png)  
+
+#### Complete ALU  
+
+![alt text](1654416886066-2c770d92-fb4b-4c67-9e8a-9c1dd508276e.png)  
+
+- **Overflow**  
+  - should only be done at *Most Significant Bit* (ALU63)  
+  - if ${C_{in} \bigoplus {C_{out} = 1}}$, overflow occurs  
+- **Less & Set**  
+- `slt rd, rs1, rs2`  
+  -  the final result should be given to `Result[0]` (Least Significant Bit), `Result[1:63] = 0`
+  -  `Less` of ALU0 is given by `Set` of ALU63, orther `Less` is 0  
+-  
+
+##### A bit of optimization  
+
+1. If doing `+` , `Binvert` & `CarryIn` of ALU0 is 0; if doing `-` , `Binvert` & `CarryIn` of ALU0 is 1. They can be merged as `Bnegate`.   
+2. Add a zero detector for operations like `beq` , `bne`  
+
+![alt text](image-25.png)  
+
+We need 4-bits control lines, consisting of `Ainvert` , `Bnegate` , `Operation` (2-bits)  
+
+![alt text](image-26.png)  
 
